@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zohar Eyewear — Anteojos por Mayor</title>
+
+<link rel="icon" type="image/png" href="/Users/valuschvartz/Downloads/zohar/favicon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue-deep: #0d1f45;
+    --blue: #2a4a7f;
+    --blue-mid: #1e3a6e;
+    --blue-light: #4a72b0;
+    --blue-pale: #8aafd4;
+    --cream: #eef2f8;
+    --white: #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Jost', sans-serif; background: var(--blue-deep); color: var(--cream); overflow-x: hidden; }
+
+  /* Filtro para que el logo PNG (si es negro) se vea blanco */
+  .logo-blanco {
+    filter: brightness(0) invert(1);
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    transition: background 0.4s, border 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(13,31,69,0.97);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(74,114,176,0.2);
+  }
+  .nav-logo { height: 90px; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-weight: 300; font-size: 0.74rem; letter-spacing: 0.18em;
+    text-transform: uppercase; color: rgba(238,242,248,0.65); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 6rem 2rem 5rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 90% 70% at 50% 40%, rgba(42,74,127,0.65) 0%, transparent 65%),
+      radial-gradient(ellipse 50% 50% at 15% 85%, rgba(74,114,176,0.15) 0%, transparent 55%),
+      var(--blue-deep);
+  }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(74,114,176,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(74,114,176,0.05) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 80%);
+  }
+
+  .hero-eyebrow {
+    font-weight: 300; font-size: 0.7rem; letter-spacing: 0.38em;
+    text-transform: uppercase; color: var(--blue-pale);
+    margin-bottom: 2.8rem; position: relative;
+    opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-logo-wrap {
+    position: relative; margin-bottom: 2.5rem;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.4s;
+  }
+
+  .hero-logo { width: min(420px, 72vw); display: block; }
+
+  .hero-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 3vw, 2.3rem);
+    font-weight: 300; font-style: italic;
+    color: var(--cream); line-height: 1.45;
+    max-width: 500px; margin: 0 auto 2.8rem;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.6s; position: relative;
+  }
+  .hero-tagline em { font-style: normal; color: var(--blue-pale); }
+
+  .hero-cta {
+    display: inline-block; padding: 0.9rem 3rem;
+    background: var(--blue); border: 1px solid rgba(138,175,212,0.35);
+    color: var(--cream); font-weight: 400; font-size: 0.73rem;
+    letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none;
+    transition: background 0.3s, transform 0.2s;
+    opacity: 0; animation: fadeUp 0.9s ease forwards 0.8s; position: relative;
+  }
+  .hero-cta:hover { background: var(--blue-light); transform: translateY(-2px); }
+
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    opacity: 0; animation: fadeUp 1s ease forwards 1.2s;
+  }
+  .hero-scroll span { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; opacity: 0.3; }
+  .scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, var(--blue-pale), transparent); animation: scrollPulse 2s ease-in-out infinite; }
+
+  /* DIVIDER */
+  .divider { width: 56px; height: 1px; background: linear-gradient(to right, transparent, var(--blue-light), transparent); margin: 0 auto 2rem; }
+
+  /* SECTIONS */
+  .section { padding: 7rem 2rem; position: relative; }
+  .section-inner { max-width: 1100px; margin: 0 auto; }
+  .section-label { font-size: 0.67rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--blue-pale); margin-bottom: 1rem; font-weight: 300; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 4.5vw, 3.6rem); font-weight: 300; line-height: 1.15; color: var(--cream); margin-bottom: 2rem; }
+
+  /* ABOUT */
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+  .about-text p { font-weight: 300; font-size: 0.97rem; line-height: 1.9; color: rgba(238,242,248,0.68); margin-bottom: 1.2rem; }
+
+  .about-frame { border: 1px solid rgba(74,114,176,0.28); padding: 3rem; position: relative; }
+  .about-frame::before { content: ''; position: absolute; top: -8px; left: -8px; width: 56px; height: 56px; border-top: 2px solid var(--blue-light); border-left: 2px solid var(--blue-light); }
+  .about-frame::after { content: ''; position: absolute; bottom: -8px; right: -8px; width: 56px; height: 56px; border-bottom: 2px solid var(--blue-light); border-right: 2px solid var(--blue-light); }
+  .stat-item { margin-bottom: 2.2rem; }
+  .stat-item:last-child { margin-bottom: 0; }
+  .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 3.5rem; font-weight: 300; color: var(--blue-pale); line-height: 1; margin-bottom: 0.3rem; }
+  .stat-label { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(238,242,248,0.4); font-weight: 300; }
+
+  /* BRANDS */
+  .brands-section { background: rgba(30,58,110,0.3); border-top: 1px solid rgba(74,114,176,0.12); border-bottom: 1px solid rgba(74,114,176,0.12); }
+  .brands-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 3.5rem; }
+  .brand-card {
+    border: 1px solid rgba(74,114,176,0.2); padding: 3rem 2.5rem; text-align: center;
+    transition: border-color 0.3s, transform 0.3s; position: relative; overflow: hidden;
+  }
+  .brand-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(42,74,127,0.35), transparent); opacity: 0; transition: opacity 0.3s; }
+  .brand-card:hover { border-color: var(--blue-light); transform: translateY(-4px); }
+  .brand-card:hover::before { opacity: 1; }
+  .brand-icon { font-size: 2rem; margin-bottom: 1.2rem; display: block; }
+  .brand-name { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 400; color: var(--cream); margin-bottom: 0.7rem; }
+  .brand-desc { font-size: 0.82rem; font-weight: 300; color: rgba(238,242,248,0.48); line-height: 1.75; }
+
+  /* STEPS */
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; margin-top: 3.5rem; position: relative; }
+  .steps::before { content: ''; position: absolute; top: 1.4rem; left: 10%; right: 10%; height: 1px; background: linear-gradient(to right, transparent, rgba(74,114,176,0.3), transparent); }
+  .step { text-align: center; padding: 0 1.5rem 2rem; }
+  .step-number { width: 44px; height: 44px; border: 1px solid var(--blue-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: var(--blue-pale); margin: 0 auto 1.5rem; background: var(--blue-deep); position: relative; z-index: 1; }
+  .step-title { font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; font-weight: 400; color: var(--cream); margin-bottom: 0.7rem; }
+  .step-text { font-size: 0.82rem; font-weight: 300; color: rgba(238,242,248,0.48); line-height: 1.75; }
+
+  /* CONTACT */
+  .contact-section { background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(42,74,127,0.3) 0%, transparent 70%), var(--blue-deep); }
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
+  .contact-item { display: flex; align-items: flex-start; gap: 1.2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(74,114,176,0.12); }
+  .contact-item:last-child { border-bottom: none; margin-bottom: 0; }
+  .contact-icon { width: 40px; height: 40px; border: 1px solid rgba(74,114,176,0.3); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; }
+  .contact-detail-label { font-size: 0.63rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--blue-pale); margin-bottom: 0.3rem; font-weight: 300; }
+  .contact-detail-value { font-size: 0.9rem; color: var(--cream); font-weight: 300; }
+  .contact-detail-value a { color: var(--cream); text-decoration: none; transition: color 0.2s; }
+  .contact-detail-value a:hover { color: var(--blue-pale); }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1.15rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-label { font-size: 0.63rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(238,242,248,0.4); font-weight: 300; }
+  .form-input, .form-textarea, .form-select {
+    background: rgba(42,74,127,0.18); border: 1px solid rgba(74,114,176,0.2);
+    color: var(--cream); font-family: 'Jost', sans-serif; font-weight: 300; font-size: 0.9rem;
+    padding: 0.85rem 1rem; outline: none; transition: border-color 0.3s; width: 100%; appearance: none;
+  }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(238,242,248,0.2); }
+  .form-input:focus, .form-textarea:focus, .form-select:focus { border-color: var(--blue-light); }
+  .form-textarea { resize: vertical; min-height: 110px; }
+  .form-select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238aafd4' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 1rem center; cursor: pointer;
+  }
+  .form-select option { background: var(--blue-deep); color: var(--cream); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .btn-submit {
+    display: inline-block; padding: 1rem 2.5rem; background: var(--blue); color: var(--cream);
+    font-family: 'Jost', sans-serif; font-weight: 400; font-size: 0.73rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    border: 1px solid rgba(138,175,212,0.3); cursor: pointer;
+    transition: background 0.3s, transform 0.2s; margin-top: 0.5rem; align-self: flex-start;
+  }
+  .btn-submit:hover { background: var(--blue-light); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    padding: 2.5rem 4rem; border-top: 1px solid rgba(74,114,176,0.12);
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo { height: 70px; opacity: 0.9; }
+  .footer-text { font-size: 0.7rem; letter-spacing: 0.1em; color: rgba(238,242,248,0.28); font-weight: 300; }
+  .footer-links { display: flex; gap: 2rem; list-style: none; }
+  .footer-links a { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(238,242,248,0.28); text-decoration: none; font-weight: 300; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--blue-pale); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes scrollPulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .steps::before { display: none; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; }
+    .hero-logo-pill { display: inline-block; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+ <img src="./logo.png" alt="Zohar Eyewear" class="nav-logo logo-blanco">
+  <ul class="nav-links">
+    <li><a href="#nosotros">Nosotros</a></li>
+    <li><a href="#marcas">Marcas</a></li>
+    <li><a href="#como">Cómo trabajamos</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <p class="hero-eyebrow">Anteojos por mayor · Argentina</p>
+  <div class="hero-logo-wrap">
+    <div style="display:inline-block;">
+     <img src="./logo.png" alt="Zohar Eyewear" class="hero-logo logo-blanco">
+    </div>
+  </div>
+  <p class="hero-tagline">Lentes de <em>calidad</em> para ópticas<br>y comercios de todo el país</p>
+  <a href="#contacto" class="hero-cta">Contactanos</a>
+</section>
+
+<section class="section" id="nosotros">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p class="section-label">Sobre Zohar</p>
+        <h2 class="section-title">Anteojos que marcan<br>la diferencia</h2>
+        <div class="divider" style="margin: 0 0 2rem;"></div>
+        <p>Zohar Eyewear es una empresa mayorista de anteojos que vende directamente a ópticas y comercios en todo el territorio argentino.</p>
+        <p>Ofrecemos nuestra marca propia: marcos ópticos y lentes de sol con diseño contemporáneo y materiales de calidad, pensados para el mercado local.</p>
+        <p>Trabajamos con atención personalizada en cada pedido, precios competitivos y envíos a cualquier punto del país.</p>
+      </div>
+      <div class="about-visual reveal">
+        <div class="about-frame">
+          <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Cobertura nacional</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">B2B</div>
+            <div class="stat-label">Solo venta mayorista</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">ARG</div>
+            <div class="stat-label">Distribución en Argentina</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section brands-section" id="marcas">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;">
+      <p class="section-label">Nuestro catálogo</p>
+      <h2 class="section-title">Marca propia</h2>
+      <div class="divider"></div>
+      <p style="max-width:560px; margin:0 auto; font-weight:300; font-size:0.95rem; line-height:1.85; color:rgba(238,242,248,0.58);">
+        Desarrollamos nuestra propia línea de anteojos: marcos ópticos y lentes de sol con diseño y calidad para el mercado argentino.
+      </p>
+    </div>
+    <div class="brands-grid">
+      <div class="brand-card reveal">
+        <div class="brand-name">Zohar Sol</div>
+        <p class="brand-desc">Lentes de sol con diseño moderno y materiales de alta resistencia para todos los perfiles.</p>
+      </div>
+      <div class="brand-card reveal">
+        <div class="brand-name">Zohar Ópticos</div>
+        <p class="brand-desc">Marcos para lentes de prescripción en amplia variedad de formas, materiales y colores.</p>
+      </div>
+      <div class="brand-card reveal">
+        <div class="brand-name">Zohar Premium</div>
+        <p class="brand-desc">Línea con acabado superior para ópticas que quieren diferenciarse con propuestas de mayor valor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="como">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center;">
+      <p class="section-label">Proceso</p>
+      <h2 class="section-title">Cómo trabajamos</h2>
+      <div class="divider"></div>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-number">01</div>
+        <div class="step-title">Tomamos contacto</div>
+        <p class="step-text">Nos escribís por mail, Instagram o WhatsApp y te respondemos a la brevedad.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-number">02</div>
+        <div class="step-title">Catálogo y precios</div>
+        <p class="step-text">Te enviamos el catálogo mayorista completo con precios y condiciones. También podemos coordinar una visita.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-number">03</div>
+        <div class="step-title">Pedido a medida</div>
+        <p class="step-text">Elegís lo que necesitás y armamos el pedido de forma simple y rápida.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-number">04</div>
+        <div class="step-title">Entrega en todo el país</div>
+        <p class="step-text">Enviamos a cualquier punto de Argentina para que tu negocio esté siempre abastecido.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact-section" id="contacto">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <div class="contact-info reveal">
+        <p class="section-label">Hablemos</p>
+        <h2 class="section-title">Contactate<br>con nosotros</h2>
+        <div class="divider" style="margin: 0 0 2.5rem;"></div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg></div>
+          <div>
+            <p class="contact-detail-label">Email</p>
+            <p class="contact-detail-value"><a href="mailto:zohar.eyewear.info@gmail.com">zohar.eyewear.info@gmail.com</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div>
+          <div>
+            <p class="contact-detail-label">Instagram</p>
+            <p class="contact-detail-value"><a href="https://www.instagram.com/zohar_eyewear/" target="_blank" rel="noopener">@zohar_eyewear</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg></div>
+          <div>
+            <p class="contact-detail-label">WhatsApp</p>
+            <p class="contact-detail-value"><a href="https://wa.me/54XXXXXXXXXX" target="_blank" rel="noopener">Próximamente</a></p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
+          <div>
+            <p class="contact-detail-label">Cobertura</p>
+            <p class="contact-detail-value">Todo el territorio argentino</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1-6h16l1 6"/><path d="M3 9a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/><path d="M5 9v11h14V9"/><line x1="9" y1="15" x2="15" y2="15"/></svg></div>
+          <div>
+            <p class="contact-detail-label">Vendemos a</p>
+            <p class="contact-detail-value">Ópticas · Comercios multimarca</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="section-label" style="margin-bottom:1.5rem;">Formulario de contacto</p>
+        <form class="contact-form" id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="nombre">Nombre</label>
+              <input class="form-input" type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="empresa">Empresa / Negocio</label>
+              <input class="form-input" type="text" id="empresa" name="empresa" placeholder="Tu óptica o negocio">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <input class="form-input" type="email" id="email" name="email" placeholder="tu@email.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="tipo">Tipo de negocio</label>
+            <select class="form-select" id="tipo" name="tipo">
+              <option value="" disabled selected>Seleccioná una opción</option>
+              <option value="optica">Óptica</option>
+              <option value="comercio">Comercio multimarca</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="mensaje">Mensaje</label>
+            <textarea class="form-textarea" id="mensaje" name="mensaje" placeholder="Contanos sobre tu negocio y qué estás buscando..."></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Enviar consulta</button>
+          <p id="form-success" style="display:none; color:var(--blue-pale); font-size:0.85rem; margin-top:0.5rem;">¡Gracias! Te contactamos pronto.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <img src="./logo.png" alt="Zohar Eyewear" class="footer-logo logo-blanco">
+  <p class="footer-text">© 2026 Zohar Eyewear · Mayorista de anteojos · Argentina</p>
+  <ul class="footer-links">
+    <li><a href="mailto:zohar.eyewear.info@gmail.com">Mail</a></li>
+    <li><a href="https://www.instagram.com/zohar_eyewear/" target="_blank" rel="noopener">Instagram</a></li>
+    <li><a href="https://wa.me/54XXXXXXXXXX" target="_blank" rel="noopener">WhatsApp</a></li>
+  </ul>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 60); });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  function handleSubmit(e) {
+    e.preventDefault();
+    const data = new FormData(document.getElementById('contactForm'));
+    const subject = encodeURIComponent('Consulta mayorista - Zohar Eyewear');
+    const body = encodeURIComponent('Nombre: ' + data.get('nombre') + '\nEmpresa: ' + data.get('empresa') + '\nTipo: ' + data.get('tipo') + '\n\nMensaje:\n' + data.get('mensaje'));
+    window.location.href = 'mailto:zohar.eyewear.info@gmail.com?subject=' + subject + '&body=' + body;
+    document.getElementById('form-success').style.display = 'block';
+    setTimeout(() => { document.getElementById('form-success').style.display = 'none'; }, 5000);
+  }
+</script>
+</body>
+</html>
